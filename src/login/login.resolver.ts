@@ -16,4 +16,9 @@ export class LoginResolver {
     async login(@Args('loginInput') loginInput: LoginInput) {
         return await this.loginService.login(loginInput);
     }
+
+    @Query(() => LoginModel)
+    async getLoginData(@Args('email') email: string) {
+        return await this.loginService.getLoginData(email);
+    }
 }

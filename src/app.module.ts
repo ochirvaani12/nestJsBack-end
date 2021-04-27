@@ -12,7 +12,7 @@ import { LoginModule } from './login/login.module';
     GraphQLModule.forRoot({
       autoSchemaFile: true,
       context: ({req}) => ({ headers: req.headers }),
-    })
+    }),
   ],
   controllers: [],
   providers: [],

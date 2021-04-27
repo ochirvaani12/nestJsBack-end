@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { LoginService } from "src/login/login.service";
-import { LoginModel } from "src/login/model/login.model";
 import { Repository } from "typeorm";
 import { CandidateCreateInput } from "./dto/candidate.create.input";
 import { CandidateUpdateInput } from "./dto/candidate.update.input";
@@ -12,7 +10,6 @@ import { CandidateModel } from "./model/candidate.model";
 export class CandidatesService {
     constructor (
         @InjectRepository(CandidateEntity) private candidatesRepository: Repository<CandidateEntity>,
-        private readonly loginService: LoginService,
     ) {}
 
     // QUERIES
@@ -23,14 +20,7 @@ export class CandidatesService {
     async getCandidateByid(candidateNo: string): Promise<CandidateModel> {
         return await this.candidatesRepository.findOneOrFail({candidateNo: candidateNo});
     }
-    async getCandidateByEmail(email: string): Promise<CandidateModel> {
-        return await this.candidatesRepository.findOneOrFail({email: email});
-    }
 
-    // NESTED LOGIN QUERY
-    async getLoginData(email: string): Promise<LoginModel> {
-        return await this.loginService.getLoginData(email);
-    }
 
     // MUTATION
     async createCandidate(candidate: CandidateCreateInput): Promise<CandidateModel> {
