@@ -2,7 +2,7 @@ import { Field, InputType } from "@nestjs/graphql";
 import { IsAlpha, IsEmail } from 'class-validator';
 
 @InputType()
-export class CandidateCreateInput {
+export class RecruiterCreateInput {
     @Field()
     @IsAlpha()
     readonly firstName: string;
@@ -11,12 +11,12 @@ export class CandidateCreateInput {
     @IsAlpha()
     readonly lastName: string;
 
-    @Field()
-    readonly avatar: string;
-
     @IsEmail()
     @Field()
     readonly email: string;
+
+    @Field()
+    readonly avatar: string;
 
     @Field()
     readonly phone: string;
@@ -24,6 +24,6 @@ export class CandidateCreateInput {
     @Field()
     readonly location: string;
     
-    @Field()
-    readonly education: string;
+    @Field({nullable: true})
+    readonly createdByID?: string;
 }
