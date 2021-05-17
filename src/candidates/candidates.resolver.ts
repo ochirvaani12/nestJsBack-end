@@ -1,13 +1,17 @@
 import { Resolver, Query, Args, Mutation, ResolveField, Parent } from "@nestjs/graphql";
+import { LoginService } from "src/login/login.service";
 import { LoginModel } from "src/login/model/login.model";
 import { CandidatesService } from "./candidates.service";
 import { CandidateCreateInput } from "./dto/candidate.create.input";
 import { CandidateUpdateInput } from "./dto/candidate.update.input";
 import { CandidateModel } from "./model/candidate.model";
 
-@Resolver()
+@Resolver(() => CandidateModel)
 export class CandidatesResolver {
-    constructor( private readonly candidatesService: CandidatesService ) {}
+    constructor( 
+        private readonly candidatesService: CandidatesService,
+        private readonly loginService: LoginService,
+    ) {}
 
     // QUERIES
     @Query(() => [CandidateModel])
@@ -20,15 +24,10 @@ export class CandidatesResolver {
         return await this.candidatesService.getCandidateByid(candidateNo);
     }
 
-    @Query(() => CandidateModel)
-    async getCandidateByEmail( @Args('email') email: string) {
-        return await this.candidatesService.getCandidateByEmail(email);
-    }
-
-    // NESTED RESOLVER QUERY
+    // RESOLVE NESTED QUERY
     @ResolveField(() => LoginModel)
-    async getLoginData(@Parent() candidate: CandidateModel) {
-        return await this.candidatesService.getLoginData(candidate.email);
+    async login(@Parent() candidate: CandidateModel): Promise<LoginModel> {
+        return await this.loginService.getLoginData(candidate.email);
     }
 
     // MUTATION

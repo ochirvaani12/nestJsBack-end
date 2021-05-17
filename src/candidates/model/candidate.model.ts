@@ -27,6 +27,6 @@ export class CandidateModel {
     @Field()
     education: string;
 
-    @Field(() => LoginModel,{nullable: true})
-    login?: LoginModel
+    @Field(type => LoginModel, {nullable: true})
+    login? = LoginModel
 } 

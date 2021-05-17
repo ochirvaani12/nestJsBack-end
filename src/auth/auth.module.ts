@@ -1,12 +1,14 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
-import { CandidatesModule } from "src/candidates/candidates.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { CandidateEntity } from "src/candidates/model/candidate.entity";
+import { RecruiterEntity } from "src/recruiters/model/recruiter.entity";
 import { AuthService } from "./auth.service";
 import { jwtConstants } from "./constants"
 
 @Module({
     imports: [
-        forwardRef(() => CandidatesModule),
+        TypeOrmModule.forFeature([CandidateEntity, RecruiterEntity]),
         JwtModule.register({
             secret: jwtConstants.secret,
             signOptions: { expiresIn: '3600s' },

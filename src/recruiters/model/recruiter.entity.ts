@@ -1,28 +1,28 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class CandidateEntity {
+export class RecruiterEntity {
     @PrimaryGeneratedColumn('uuid')
-    candidateNo: string;
+    recruiterNo: string
 
     @Column()
-    firstName: string;
+    firstName: string
 
     @Column()
-    lastName: string;
+    lastName: string
 
     @Column({unique: true})
     email: string;
 
     @Column()
-    avatar: string;
+    avatar: string
 
     @Column()
-    phone: string;
+    phone: string
 
     @Column()
-    location: string;
+    location: string
 
     @Column()
-    education: string;
-} 
+    createdByID: string
+}

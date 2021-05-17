@@ -14,15 +14,37 @@ export class LoginService {
     ) {}
 
     async finishingRegister(email: string, password: string): Promise<LoginModel> {
-        const newLogin = new LoginEntity();
-        newLogin.email = email;
-        newLogin.password = await this.authService.hashPassword(password);
-        await this.loginRepository.save(newLogin);
-        const returnLogin = new LoginModel();
-        returnLogin.id = newLogin.id;
-        returnLogin.email = newLogin.email;
-        returnLogin.token = await this.authService.generateJWT(email);
-        return returnLogin;
+        const validation = await this.loginRepository.findOne({email: email});
+        if(validation) {
+            throw new Error('email is already registered!');
+        } else{
+            const newLogin = new LoginEntity();
+            newLogin.email = email;
+            newLogin.password = await this.authService.hashPassword(password);
+            await this.loginRepository.save(newLogin);
+            const returnLogin = new LoginModel();
+            returnLogin.id = newLogin.id;
+            returnLogin.email = newLogin.email;
+            returnLogin.token = await this.authService.generateJWT(email);
+            return returnLogin;
+        }
+    }
+
+    async finishingRegisterRecruiter(email: string, password: string): Promise<LoginModel> {
+        const validation = await this.loginRepository.findOne({email: email});
+        if(validation) {
+            throw new Error('email is already registered!');
+        } else{
+            const newLogin = new LoginEntity();
+            newLogin.email = email;
+            newLogin.password = await this.authService.hashPassword(password);
+            await this.loginRepository.save(newLogin);
+            const returnLogin = new LoginModel();
+            returnLogin.id = newLogin.id;
+            returnLogin.email = newLogin.email;
+            returnLogin.token = await this.authService.generateJWTrecruiter(email);
+            return returnLogin;
+        }
     }
 
     async getLoginData(email: string): Promise<LoginModel> {
@@ -32,6 +54,16 @@ export class LoginService {
             login.id = loginData.id;
             login.email = loginData.email;
             login.token = await this.authService.generateJWT(loginData.email);
+            return login;
+        }
+    }
+    async getLoginDataRecruiter(email: string): Promise<LoginModel> {
+        const loginData = await this.loginRepository.findOne({email: email});
+        if(loginData) {
+            const login = new LoginModel();
+            login.id = loginData.id;
+            login.email = loginData.email;
+            login.token = await this.authService.generateJWTrecruiter(loginData.email);
             return login;
         }
     }

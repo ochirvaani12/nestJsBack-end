@@ -12,8 +12,18 @@ export class LoginResolver {
         return await this.loginService.finishingRegister(email, password);
     }
 
+    @Mutation(() => LoginModel)
+    async finishingRegisterRecruiter(@Args('email') email: string, @Args('password') password: string) {
+        return await this.loginService.finishingRegisterRecruiter(email, password);
+    }
+
     @Query(() => LoginModel)
     async login(@Args('loginInput') loginInput: LoginInput) {
         return await this.loginService.login(loginInput);
+    }
+
+    @Query(() => LoginModel)
+    async getLoginData(@Args('email') email: string) {
+        return await this.loginService.getLoginData(email);
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "project1",
+  "name": "project2",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -29,6 +29,8 @@
     "@nestjs/typeorm": "^7.1.5",
     "apollo-server-express": "^2.23.0",
     "bcrypt": "^5.0.1",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.4",
     "mysql": "^2.18.1",
